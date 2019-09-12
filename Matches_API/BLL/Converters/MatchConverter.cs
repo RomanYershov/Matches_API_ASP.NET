@@ -31,7 +31,10 @@ namespace Matches_API.BLL.Converters
                 DateTime = model.DateTime,
                 LeagueId = model.League.Id
             };
-            
+            var listTeams = new List<Team>();
+            listTeams.Add(model.TeamOne);
+            listTeams.Add(model.TeamTwo);
+            entity.Teams = listTeams;
             return entity;
         }
     }
