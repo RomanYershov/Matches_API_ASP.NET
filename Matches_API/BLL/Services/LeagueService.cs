@@ -38,5 +38,15 @@ namespace Matches_API.BLL.Services
         {
             throw new NotImplementedException();
         }
+
+        public LeagueModel Delete(LeagueModel item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public LeagueModel Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -133,22 +133,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="BLL\Converters\CandidateConverter.cs" />
     <Compile Include="BLL\Converters\LeagueConverter.cs" />
     <Compile Include="BLL\Converters\MatchConverter.cs" />
     <Compile Include="BLL\Converters\TeamConverter.cs" />
     <Compile Include="BLL\Helpers\SimpleResponse.cs" />
     <Compile Include="BLL\Interfaces\IModelEtityConverter.cs" />
     <Compile Include="BLL\Interfaces\IService.cs" />
+    <Compile Include="BLL\Models\CandidateModel.cs" />
     <Compile Include="BLL\Models\LeagueModel.cs" />
     <Compile Include="BLL\Models\MatchModel.cs" />
     <Compile Include="BLL\Models\ModelBase.cs" />
     <Compile Include="BLL\Models\TeamModel.cs" />
+    <Compile Include="BLL\Services\CandidateService.cs" />
     <Compile Include="BLL\Services\LeagueService.cs" />
     <Compile Include="BLL\Services\MatchService.cs" />
+    <Compile Include="BLL\Services\ServiceContainer.cs" />
     <Compile Include="BLL\Services\TeamService.cs" />
     <Compile Include="Controllers\MatchesController.cs" />
     <Compile Include="Controllers\MatchesTestController.cs" />
     <Compile Include="DAL\EF\MatchesDbContext.cs" />
+    <Compile Include="DAL\Models\Candidate.cs" />
     <Compile Include="DAL\Models\Entity.cs" />
     <Compile Include="DAL\Models\League.cs" />
     <Compile Include="DAL\Models\Match.cs" />
@@ -165,6 +170,10 @@
     <Compile Include="Migrations\201908271011461_ChangeTableMatch.cs" />
     <Compile Include="Migrations\201908271011461_ChangeTableMatch.Designer.cs">
       <DependentUpon>201908271011461_ChangeTableMatch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909121530135_AddedCandidateTable.cs" />
+    <Compile Include="Migrations\201909121530135_AddedCandidateTable.Designer.cs">
+      <DependentUpon>201909121530135_AddedCandidateTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -187,6 +196,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908271011461_ChangeTableMatch.resx">
       <DependentUpon>201908271011461_ChangeTableMatch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909121530135_AddedCandidateTable.resx">
+      <DependentUpon>201909121530135_AddedCandidateTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

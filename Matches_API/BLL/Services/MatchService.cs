@@ -46,5 +46,15 @@ namespace Matches_API.BLL.Services
             _dbContext.SaveChanges();
             return match;
         }
+
+        public MatchModel Delete(MatchModel item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public MatchModel Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

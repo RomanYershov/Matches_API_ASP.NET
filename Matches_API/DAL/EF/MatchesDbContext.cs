@@ -16,6 +16,7 @@ namespace Matches_API.DAL.EF
         public DbSet<Player> Players { get; set; }
         public DbSet<League> Leagues { get; set; }
         public DbSet<Match> Matches { get; set; }
+        public DbSet<Candidate> Candidates { get; set; }    
     }
 
    

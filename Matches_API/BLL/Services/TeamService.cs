@@ -39,5 +39,15 @@ namespace Matches_API.BLL.Services
         {
             throw new NotImplementedException();
         }
+
+        public TeamModel Delete(TeamModel item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TeamModel Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

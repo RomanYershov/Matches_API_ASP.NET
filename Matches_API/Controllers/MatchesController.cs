@@ -18,18 +18,12 @@ namespace Matches_API.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class MatchesController : ApiController
     {
-       // private MatchesDbContext db = new MatchesDbContext();
-        private IService<Match, MatchModel> _service;
-
-        private IService<Team, TeamModel> _teamService;
-
-        private IService<League, LeagueModel> _leagueService;
+        private readonly ServiceContainer _serviceContainer;
+  
        // public MatchesController()  { }
         public MatchesController()
         {
-            _service = new MatchService();
-            _teamService = new TeamService();
-            _leagueService = new LeagueService();
+            _serviceContainer = new ServiceContainer();
         }
 
         // GET: api/Matches
@@ -42,7 +36,7 @@ namespace Matches_API.Controllers
             IEnumerable<MatchModel> model;
             try
             {
-                model = _service.Get();
+                model = _serviceContainer.MatchService.Get();
             }
             catch (Exception e)
             {
@@ -57,7 +51,7 @@ namespace Matches_API.Controllers
             MatchModel model;
             try
             {
-                model = _service.FindById(id);
+                model = _serviceContainer.MatchService.FindById(id);
             }
             catch (Exception e)
             {
@@ -69,15 +63,61 @@ namespace Matches_API.Controllers
         [Route("api/getteams")]
         public SimpleResponse GetTeams()
         {
-            var teams = _teamService.Get();
+            var teams = _serviceContainer.TeamService.Get();
             return SimpleResponse.Success(teams);
         }
         [HttpGet]
         [Route("api/getleagues")]
         public SimpleResponse GetLeagues()
         {
-            var leagues = _leagueService.Get();
+            var leagues = _serviceContainer.LeagueService.Get();
             return SimpleResponse.Success(leagues);
+        }
+
+        [HttpGet]
+        [Route("api/getcandidates")]
+        public SimpleResponse GetCandidates()
+        {
+            var result = _serviceContainer.UserService.Get();
+            return SimpleResponse.Success(result);
+        }
+        [HttpPost]
+        [Route("api/user/done")]
+        public SimpleResponse Done(CandidateModel candidate)
+        {
+            Candidate user;
+            try
+            {
+                user = _serviceContainer.UserService.Done(candidate);
+            }
+            catch (Exception e)
+            {
+               return SimpleResponse.Error($"{e.Message}\n{e.StackTrace}");
+            }
+            return SimpleResponse.Success(user);
+        }
+        [HttpPost]
+        [Route("api/user/create")]
+        public SimpleResponse CreateCandidate(CandidateModel model)
+        {
+            var result = _serviceContainer.UserService.Create(model);
+            return SimpleResponse.Success(result);
+        }
+
+        [HttpDelete]
+        [Route("api/user/delete/{id}")]
+        public SimpleResponse RemoveUser(int id)
+        {
+            CandidateModel model;
+            try
+            {
+             model = _serviceContainer.UserService.Delete(id);
+            }
+            catch (Exception e)
+            {
+               return  SimpleResponse.Error(e.StackTrace);
+            }
+            return SimpleResponse.Success(model);
         }
         // GET: api/Matches/5
         //[ResponseType(typeof(Match))]
@@ -153,7 +193,7 @@ namespace Matches_API.Controllers
             Match newMatch;
             try
             {
-            newMatch =  _service.Create(model);
+            newMatch =  _serviceContainer.MatchService.Create(model);
             }
             catch (Exception e)
             {

@@ -14,6 +14,8 @@ namespace Matches_API.BLL.Interfaces
         IEnumerable<T2> Get(Func<T1, Boolean> predicate);
         T2 FindById(int id);
         T1 Create(T2 item);
+        T2 Delete(T2 item);
+        T2 Delete(int id);
 
     }
 }

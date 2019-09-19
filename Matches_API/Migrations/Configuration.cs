@@ -48,6 +48,13 @@ namespace Matches_API.Migrations
             Match match2 = new Match { DateTime = DateTime.Now.AddDays(2), League = league2, Teams = teams_2 };
             Match match3 = new Match { DateTime = DateTime.Now, League = league3, Teams = teams_3 };
 
+            context.Candidates.AddRange(new Candidate[]
+            {
+                new Candidate {Age = 37, FirstName = "Roman", LastName = "Yershov"},
+                new Candidate {Age = 36, FirstName = "Semen", LastName = "Yershov"},
+                new Candidate {Age = 25, FirstName = "Anton", LastName = "Yershov"}
+            });
+
             context.Teams.AddRange(new[] {team1, team2, team3});
             context.Players.AddRange(new[] {player1, player2, player3, player4, player5, player6});
             context.Leagues.AddRange(new[] {league2, league3});
