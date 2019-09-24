@@ -140,11 +140,13 @@
     <Compile Include="BLL\Helpers\SimpleResponse.cs" />
     <Compile Include="BLL\Interfaces\IModelEtityConverter.cs" />
     <Compile Include="BLL\Interfaces\IService.cs" />
+    <Compile Include="BLL\Interfaces\ServiceBase.cs" />
     <Compile Include="BLL\Models\CandidateModel.cs" />
     <Compile Include="BLL\Models\LeagueModel.cs" />
     <Compile Include="BLL\Models\MatchModel.cs" />
     <Compile Include="BLL\Models\ModelBase.cs" />
     <Compile Include="BLL\Models\TeamModel.cs" />
+    <Compile Include="BLL\Services\BaseServiceExecute.cs" />
     <Compile Include="BLL\Services\CandidateService.cs" />
     <Compile Include="BLL\Services\LeagueService.cs" />
     <Compile Include="BLL\Services\MatchService.cs" />

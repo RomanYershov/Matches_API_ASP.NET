@@ -10,66 +10,65 @@ using Matches_API.DAL.Models;
 
 namespace Matches_API.BLL.Services
 {
-    public class CandidateService : IService<Candidate, CandidateModel>
+    public class CandidateService :  ServiceBase
     {
-        private MatchesDbContext _dbContext;
         private IModelEtityConverter<CandidateModel, Candidate> _converter;
 
         public CandidateService()
         {
-            _dbContext = new MatchesDbContext();
             _converter = new CandidateConverter();
         }
-        public IEnumerable<CandidateModel> Get()
+        public override IEnumerable<ModelBase> Get()
         {
-            return _dbContext.Candidates.AsNoTracking().ToList().Select(x => _converter.GetModelByEntity(x));
+            return DbContext.Candidates.AsNoTracking().ToList().Select(x => _converter.GetModelByEntity(x));
         }
 
-        public IEnumerable<CandidateModel> Get(Func<Candidate, bool> predicate)
+        public override IEnumerable<ModelBase> Get(Func<Entity, bool> predicate)
         {
             throw new NotImplementedException();
         }
 
-        public CandidateModel FindById(int id)
+        public override ModelBase FindById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Candidate Create(CandidateModel item)
+        public override  ModelBase Create(ModelBase item)
         {
-            var newUser = new Candidate
-            {
-                Age = item.Age,
-                FirstName = item.FirstName,
-                LastName = item.LastName
-            };
-            _dbContext.Candidates.Add(newUser);
-            _dbContext.SaveChanges();
-            return newUser;
-        }
-
-        public CandidateModel Delete(CandidateModel item)
-        {
-            var user = _converter.GetEntityByModel(item);
-            _dbContext.Candidates.Remove(user);
-            _dbContext.SaveChanges();
+            var newUser = _converter.GetEntityByModel(item as CandidateModel);
+            DbContext.Candidates.Add(newUser);
+            DbContext.SaveChanges();
+            item.Id = newUser.Id;
             return item;
         }
 
-        public CandidateModel Delete(int id)
+        public override ModelBase Delete(ModelBase item)
         {
-            var user = _dbContext.Candidates.Find(id);
-            _dbContext.Candidates.Remove(user);
-            _dbContext.SaveChanges();
+            var user = _converter.GetEntityByModel(item as CandidateModel);
+            DbContext.Candidates.Remove(user);
+            DbContext.SaveChanges();
+            return item;
+        }
+
+        public override ModelBase Delete(int id)
+        {
+            var user = DbContext.Candidates.Find(id);
+            DbContext.Candidates.Remove(user);
+            DbContext.SaveChanges();
             return _converter.GetModelByEntity(user);
         }
 
-        public Candidate Done(CandidateModel model)
+        public override void Update(ModelBase model)
         {
-            var user = _dbContext.Candidates.Find(model.Id);
-            user.Done = model.Done;
-            _dbContext.SaveChanges();
-            return user;
+            
+        }
+
+        public ModelBase Done(ModelBase model)
+        {
+            var user = DbContext.Candidates.Find(model.Id);
+            user.Done =((CandidateModel) model).Done;
+            DbContext.SaveChanges();
+            return model;
         }
     }
 }

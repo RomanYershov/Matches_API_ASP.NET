@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Filters;
+
 using Matches_API.BLL.Helpers;
 using Matches_API.BLL.Interfaces;
 using Matches_API.BLL.Models;
@@ -19,8 +20,9 @@ namespace Matches_API.Controllers
     public class MatchesController : ApiController
     {
         private readonly ServiceContainer _serviceContainer;
-  
-       // public MatchesController()  { }
+
+
+        // public MatchesController()  { }
         public MatchesController()
         {
             _serviceContainer = new ServiceContainer();
@@ -78,21 +80,21 @@ namespace Matches_API.Controllers
         [Route("api/getcandidates")]
         public SimpleResponse GetCandidates()
         {
-            var result = _serviceContainer.UserService.Get();
+            var result = BaseServiceExecute.Get(new CandidateService());
             return SimpleResponse.Success(result);
         }
         [HttpPost]
         [Route("api/user/done")]
         public SimpleResponse Done(CandidateModel candidate)
         {
-            Candidate user;
+            ModelBase user;
             try
             {
-                user = _serviceContainer.UserService.Done(candidate);
+                user = BaseServiceExecute.Done(new CandidateService(), candidate);
             }
             catch (Exception e)
             {
-               return SimpleResponse.Error($"{e.Message}\n{e.StackTrace}");
+                return SimpleResponse.Error($"{e.Message}\n{e.StackTrace}");
             }
             return SimpleResponse.Success(user);
         }
@@ -100,139 +102,44 @@ namespace Matches_API.Controllers
         [Route("api/user/create")]
         public SimpleResponse CreateCandidate(CandidateModel model)
         {
-            var result = _serviceContainer.UserService.Create(model);
-            return SimpleResponse.Success(result);
+            //var result = _serviceContainer.UserService.Create(model);
+            var newModel = BaseServiceExecute.Create(new CandidateService(), model);
+            return SimpleResponse.Success(newModel);
         }
 
         [HttpDelete]
         [Route("api/user/delete/{id}")]
         public SimpleResponse RemoveUser(int id)
         {
-            CandidateModel model;
+            ModelBase model;
             try
             {
-             model = _serviceContainer.UserService.Delete(id);
+                model = BaseServiceExecute.Delete(new CandidateService(), id);
             }
             catch (Exception e)
             {
-               return  SimpleResponse.Error(e.StackTrace);
+                return SimpleResponse.Error(e.StackTrace);
             }
             return SimpleResponse.Success(model);
         }
-        // GET: api/Matches/5
-        //[ResponseType(typeof(Match))]
-        //public async Task<IHttpActionResult> GetMatch(int id)
-        //{
-        //    Match match = await db.Matches.FindAsync(id);
-        //    if (match == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    //return Ok(match);
-        //    return Json(new
-        //    {
-        //        DateTime = match.DateTime,
-        //        Teams = new { TeamId = match.Teams.First().Id, Name = match.Teams.First().Name },
-        //        League = match.League
-        //    });
-        //}
-
-        //// PUT: api/Matches/5
-        //[ResponseType(typeof(void))]
-        //public async Task<IHttpActionResult> PutMatch(int id, Match match)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    if (id != match.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    db.Entry(match).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await db.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!MatchExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return StatusCode(HttpStatusCode.NoContent);
-        //}
-
-        // POST: api/Matches
-        //[ResponseType(typeof(Match))]
-        //public async Task<IHttpActionResult> PostMatch(Match match)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    db.Matches.Add(match);
-        //    await db.SaveChangesAsync();
-
-        //    return CreatedAtRoute("DefaultApi", new { id = match.Id }, match);
-        //}
-
-        public SimpleResponse PostMatch( MatchModel model)
+       
+        public SimpleResponse PostMatch(MatchModel model)
         {
             Match newMatch;
             try
             {
-            newMatch =  _serviceContainer.MatchService.Create(model);
+                newMatch = _serviceContainer.MatchService.Create(model);
             }
             catch (Exception e)
             {
-               return SimpleResponse.Error(e.Message + "\t"  + e.StackTrace);
+                return SimpleResponse.Error(e.Message + "\t" + e.StackTrace);
             }
-            return SimpleResponse.Success(new {Id = newMatch.Id, DateTime = newMatch.DateTime, LeagueId = newMatch.LeagueId});
-        }   
+            return SimpleResponse.Success(new { Id = newMatch.Id, DateTime = newMatch.DateTime, LeagueId = newMatch.LeagueId });
+        }
 
 
 
 
-        //// DELETE: api/Matches/5
-        //[ResponseType(typeof(Match))]
-        //public async Task<IHttpActionResult> DeleteMatch(int id)
-        //{
-        //    Match match = await db.Matches.FindAsync(id);
-        //    if (match == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    db.Matches.Remove(match);
-        //    await db.SaveChangesAsync();
-
-        //    return Ok(match);
-        //}
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
-
-        //private bool MatchExists(int id)
-        //{
-        //    return db.Matches.Count(e => e.Id == id) > 0;
-        //}
+      
     }
 }
